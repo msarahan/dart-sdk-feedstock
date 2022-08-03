@@ -1,0 +1,3 @@
+dart_runtime_selector:
+  - aot
+  - sdk
