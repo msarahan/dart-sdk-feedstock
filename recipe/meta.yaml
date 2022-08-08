@@ -1,4 +1,4 @@
-{% set name = "dart-sdk" %}
+{% set name = "dart-sdk-repack" %}
 {% set version = "2.17.6" %}
 
 package:
@@ -30,20 +30,12 @@ build:
     - "*/libc.so.6"
 
 outputs:
-  # define a mutex because the aot package calls the `dartaotruntime` simply `dart` and we don't want to confuse that with the SDK's fatter `dart` executable
-  - name: _dart-runtime-mutex
-    version: 1.0
-    build:
-      string: {{ dart_runtime_selector }}
-    test:
-      commands:
-        - echo "Dummy test to appease linter"
-
+  # TODO: define a mutex because the aot package calls the `dartaotruntime` simply `dart` and we don't want to confuse that with the SDK's fatter `dart` executable
   - name: dart-aot-runtime
     script: copy_aot_runtime.sh   # [unix]
     script: copy_aot_runtime.bat  # [win]
     requirements:
-      - _dart-runtime-mutex 1.0-aot
+      - _dart-runtime-mutex * aot
     test:
       commands:
         - dart --help
@@ -58,17 +50,18 @@ outputs:
     script: copy_sdk.sh   # [unix]
     script: copy_sdk.bat  # [win]
     requirements:
-      - _dart-runtime-mutex 1.0-sdk
+      - _dart-runtime-mutex * sdk
     test:
       commands:
         - dart --help
+    about:
+      home: https://dart.dev/
+      license: BSD-3-Clause
+      license_file:
+        - LICENSE
+      summary: a client-optimized language for developing fast apps on any platform
 
-about:
-  home: https://dart.dev/
-  license: BSD-3-Clause
-  license_file:
-    - LICENSE
-  summary: a client-optimized language for developing fast apps on any platform
+
 
 extra:
   recipe-maintainers:
