@@ -19,6 +19,9 @@ source:
 
 build:
   number: 0
+  # There are no binaries available for ppc64le, so we can't repack anything
+  # https://dart.dev/get-dart/archive
+  skip: True   # [ppc64le]
   binary_relocation: False
   missing_dso_whitelist:
     # normal linux stuff that would go away if we had libgcc-ng in the run deps
